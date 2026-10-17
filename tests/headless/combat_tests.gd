@@ -286,4 +286,3 @@ func _replay(Session: Script, Command: Script) -> void:
 	check(events.any(func(e: Dictionary) -> bool: return e["type"] == "actor_died"), "replay includes lethal outcome")
 	check(events.any(func(e: Dictionary) -> bool: return e["type"] == "enemy_moved"), "replay includes enemy approach")
 	check(events.any(func(e: Dictionary) -> bool: return e["type"] == "damage"), "replay includes damage")
-

@@ -67,7 +67,7 @@ Commands executed from repository root; logs/captures stay ignored under `.local
 | APK ZIP inventory | PASS: four combat modules compiled/packaged, no tests/docs/tools/.local/keystore entries |
 | `adb devices -l` | Empty; no install or phone combat test performed by agent |
 | `git diff --check` | PASS |
-| Hosted GitHub CI | Pending push; concrete run/hash recorded in subsequent evidence update |
+| Hosted GitHub CI | **PASS**: [run39053393152](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39053393152), implementation `4c3f9c023029051f45318d819791801227f70848`; GitHub API confirmed successful official Linux engine download and import/boot/all-seven-suite job |
 
 Rendered commands (all ran successfully after review fixes):
 
@@ -103,6 +103,8 @@ Captures: `i004-initial.png`, `i004-target.png`, `i004-combat.png`, `i004-360x64
 | Android attack input and feedback review | **UNVERIFIED** physical | Desktop viewport pointer/touch checks PASS; awaiting user install0.4.0 |
 
 Required implementation is complete; physical I-004 acceptance remains pending. I-001–I-003 automated regressions and user-reported historical acceptance are preserved. I-005 is not authorized.
+
+Implementation commit `4c3f9c023029051f45318d819791801227f70848` pushed to origin/main, together with separate acceptance `86355f0`. Hosted CI confirmed success against that implementation SHA. Local and remote main matched after the implementation push. Evidence follow-up also removes one trailing blank line in the new combat test (staging whitespace check identified it); no runtime behavior changes.
 
 ## APK and setup
 
