@@ -3,7 +3,7 @@
 | Packet | Status | Acceptance evidence | Blockers | Commit |
 |---|---|---|---|---|
 | I-001 | ACCEPTED — user approved 2026-10-17 | Agent import/boot, 28 checks, rendered navigation, APK verification and CI PASS; user reports all nine required Android manual checks PASS | None for required acceptance; optional evidence/coverage follow-ups below | `7fd6ac0f148971cde3a35f8501a37df3d102cde7` |
-| I-002 | IMPLEMENTED; physical acceptance UNVERIFIED | Same-seed hash fixture; 14,216 pure checks across 100 seeds; 17 scene checks; original 28 I-001 checks; rendered pointer/key checks at three portrait sizes; signed APK export | No attached phone for new-APK launch, touch/inset/lifecycle checks or five-minute walkthrough | Implementation hash recorded after commit |
+| I-002 | IMPLEMENTED; physical acceptance UNVERIFIED | Same-seed hash fixture; 14,216 pure checks across 100 seeds; 17 scene checks; original 28 I-001 checks; rendered pointer/key checks at three portrait sizes; signed APK export; hosted CI PASS | No attached phone for new-APK launch, touch/inset/lifecycle checks or five-minute walkthrough | `7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725` |
 
 Do not mark on-device acceptance criteria PASS without a real APK installation and observed behavior.
 
@@ -28,5 +28,6 @@ Do not mark on-device acceptance criteria PASS without a real APK installation a
 - Both rendered smoke scripts PASS; region controls contained at 450×800, 360×640 and 450×1000; screenshots inspected. Seed 1337 spawn (3,11), SHA-256 `bc684a41b41fb3877fe8a325c5a5ffbaa596b436280fdb2f709908269f5131ba`.
 - New ignored APK: `builds/android/Hollowfold-I002-debug.apk`, version 0.2.0/code 2; same key/app ID (matching signing certificate verified). Build/signature checks PASS; previous I-001 APK preserved. Final size 28,334,486 bytes; SHA-256 `B13AE3A61BD60BC246660C7D99758F98D9175AC3F8F7B05E4FAF5A160350C092`.
 - ADB lists no device; **I-002 physical Android results UNVERIFIED**, including five-minute walkthrough. The user's I-001 acceptance is not reused as I-002 evidence.
-- Hosted I-002 CI status and implementation hash are recorded after push; local tests alone do not establish hosted CI success.
+- Implementation `7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725` (`feat: implement I-002 deterministic region exploration`) committed/pushed to origin/main. Local/remote SHA equality and clean tree verified after push.
+- Hosted [CI run 39047443791](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39047443791) completed **successfully** against that implementation SHA. GitHub API confirmed engine download and import/boot/all-headless-suite steps passed on Linux, including the committed map fixture. This documentation follow-up records the actual hash/result without changing runtime code.
 - Stop after I-002; **I-003 NOT AUTHORIZED / NOT STARTED**. User review of I-002 is required before proceeding.

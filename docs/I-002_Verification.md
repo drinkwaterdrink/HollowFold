@@ -58,6 +58,7 @@ All commands ran from the repository root. Full logs and captures are ignored un
 | APK manifest inspection (`aapt dump badging`, `dump permissions`, `dump xmltree`) | Version 0.2.0/code 2, same `io.github.drinkwaterdrink.hollowfold`, ARM64, API 24 minimum / 36 target, portrait; no requested permissions |
 | `adb devices -l` | Empty device list. Agent did not install/test I-002 on a phone |
 | `git diff --check` | PASS |
+| Hosted GitHub CI | PASS: [run 39047443791](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39047443791), `success` against `7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725`; official Linux engine download and import/boot/headless suite step succeeded, including the seed/hash fixture |
 
 Final APK: **28,334,486 bytes (27.02 MiB)**, SHA-256 **`B13AE3A61BD60BC246660C7D99758F98D9175AC3F8F7B05E4FAF5A160350C092`**. V2/V3 signatures verify. The I-001 and I-002 APK certificate SHA-256 digests match, confirming continuity of the local development signing key. APK ZIP inspection found new region runtime resources and no docs/tests/tools/.local/keystores. Rebuilding can change archive/signature timestamps and hash.
 
@@ -87,6 +88,8 @@ Captures include `.local/verification/i002-region.png`, `i002-next-seed.png` and
 Implementation is ready for I-002 review; physical acceptance remains pending. I-003 is **NOT AUTHORIZED / NOT STARTED**.
 
 Independent read-only code review found no material issues. Reviewer inspected existing logs and ran `git diff --check`, without claiming independent Godot/phone execution. Optional coverage follow-up: compare raw terrain in the scene-level Next seed assertion as well; the pure 100-seed suite already tests raw terrain variation, so this is nonblocking.
+
+Implementation commit: **`7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725`**, pushed to origin/main. Working tree was clean and remote HEAD matched after push. This documentation-only follow-up records that concrete commit and hosted CI result; no runtime change follows the tested implementation.
 
 ## Short manual Android checklist
 
