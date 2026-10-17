@@ -16,11 +16,13 @@ Repository: [drinkwaterdrink/HollowFold](https://github.com/drinkwaterdrink/Holl
 
 Read `AGENTS.md`. Implement one authorized I-packet at a time; do not begin the next packet without the user's approval.
 
-The project contains the title/menu and seeded region explorer with I-003's deterministic Move/Wait/Inspect engine, logical time and basic line-of-sight/fog. Android application ID: `io.github.drinkwaterdrink.hollowfold`.
+The project contains the title/menu and seeded region explorer with I-004's deterministic tactical combat. Android application ID: `io.github.drinkwaterdrink.hollowfold`.
 
-Choose **New Run → Explore region**. Use the eight-way pad, arrows/WASD or Q/E/Z/C for diagonals. Rock and water block movement; rock also blocks sight. Centre **Wait** (Space/period) advances one action. Tap a map tile to **Inspect**, or press I to inspect the player's tile. Inspect is free and cannot reveal hidden terrain. Every accepted Move/Wait advances the action counter by 1 and time by 100; rejected input, idle frames and navigation advance neither. Unknown tiles are concealed; remembered tiles outside current sight are dim.
+Choose **New Run → Explore region**. Use the eight-way pad, arrows/WASD or Q/E/Z/C for diagonals. Rock/water and occupied cells block movement; blocked corners cannot be squeezed through. Centre **Wait** (Space/period) restores up to 4 stamina and briefly guards. Legal Move/Wait cost 100 logical time. Inspect and rejected actions cost nothing; idle frames/navigation never run enemy turns.
 
-**Regenerate** resets the same seed, spawn, turns/time, RNG and fog; **Next seed** selects the next seed. **Back** returns to the launch panel, then title. Exploration remains temporary, with no saves, enemies, combat or inventory. Normal separate taps are discrete actions; overlapping touches/input within one frame are conservatively ignored to prevent duplicate commands.
+Explore to find the red **Hollow mite**. Tap its visible tile to inspect/select it (yellow ring), then press **Attack** or F: range 1, cost100 time/3 stamina, hit/miss plus armor/resistance resolution. HP/stamina, selected enemy HP/behavior and a short combat log are visible. Enemies pursue only when their own senses detect you and retreat when injured. Wait when low on stamina. Hidden enemies cannot be targeted or inspected; no bump auto-attack.
+
+**Regenerate** resets the same seed, actors, HP/stamina, counters, RNG, fog and temporary defeat. **Next seed** selects the next seed. **Back** returns to the launch panel, then title. In-memory exploration persists through menus, but no save/Chronicle/inventory/loot system exists. Death disables actions until regeneration; it does not write a permanent run record. Overlapping input is conservatively suppressed.
 
 ## Open, verify and build
 
@@ -31,12 +33,13 @@ Open `project.godot` in **Godot 4.7.2 stable** (Compatibility). From the reposit
 ./tools/export_android.ps1
 ```
 
-The portable engine, JDK, SDK and export templates are already prepared locally under ignored `.local/`. The I-003 signed debug APK is at `builds/android/Hollowfold-I003-debug.apk`; generated binaries and signing material are not in Git. Previous APKs are preserved separately.
+The portable engine, JDK, SDK and export templates are already prepared locally under ignored `.local/`. The I-004 signed debug APK is at `builds/android/Hollowfold-I004-debug.apk`; generated binaries and signing material are not in Git. Previous APKs are preserved separately.
 
 - Setup, exact commands and phone checklist: [Android build guide](docs/BUILD_ANDROID.md)
 - Actual checks, results and acceptance limits: [I-001 verification](docs/I-001_Verification.md)
 - Region generation, acceptance and manual Android checklist: [I-002 verification](docs/I-002_Verification.md)
 - Commands, state/hash, actual evidence and exact Android checklist: [I-003 verification](docs/I-003_Verification.md)
+- Combat architecture, every changed file, actual evidence and Android checklist: [I-004 verification](docs/I-004_Verification.md)
 - Asset provenance and notices: [Licenses and assets](LICENSES_AND_ASSETS.md)
 
-I-001 and I-002 were accepted after the user reported their required physical Android checks passing. I-003 requires separate physical testing of its new APK; agent-run phone testing is **UNVERIFIED**. I-004 is not authorized or implemented. Future I-005/I-022 art/UI work should pursue the recorded Caves (Android) quality direction; I-003 retains prototype graphics.
+I-001 through I-003 were accepted following user-reported physical Android passes. I-004 physical-device acceptance is **UNVERIFIED** until the user tests 0.4.0. Stop before I-005. Future I-005/I-022 art/UI work follows the recorded Caves (Android) quality direction; this packet keeps prototype graphics.

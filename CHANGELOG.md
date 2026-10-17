@@ -25,3 +25,11 @@
 - Headless and rendered smoke checks, CI, isolated Android build instructions and signed debug APK export.
 - No world generation, character creation, combat, saves or I-002 gameplay.
 - Physical-device acceptance was initially UNVERIFIED; user subsequently reported all nine required manual passes and approved I-001 on 2026-10-17 (see verification ledger).
+
+## 0.4.0 — I-004 Tactical combat slice
+
+- Shared authoritative actors, validated Attack, deterministic hit/armor/resistance resolution and combat RNG.
+- One safely placed Hollow mite, own-LOS pursuit/low-HP retreat, scheduler-driven enemy actions.
+- HP/stamina, bounded guard status, death-once, actor scheduler removal and temporary defeat.
+- Map target selection, explicit Attack/F, vitals/log/hit feedback; hidden-event privacy and existing touch guard.
+- Versioned combat replay and headless/scene/rendered checks; original I-003 golden unchanged. No inventory, loot or permanent death records.

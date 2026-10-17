@@ -9,7 +9,10 @@ const Result = preload("res://scripts/game_session/action_result.gd")
 const Grid = preload("res://scripts/world/region_grid.gd")
 const DIRECTIONS: Array[Vector2i] = [Vector2i(-1, -1), Vector2i.UP, Vector2i(1, -1), Vector2i.LEFT, Vector2i.RIGHT, Vector2i(-1, 1), Vector2i.DOWN, Vector2i(1, 1)]
 const BUTTONS: Array[String] = ["NorthWest", "North", "NorthEast", "West", "East", "SouthWest", "South", "SouthEast"]
-const FAILURE_MESSAGES: Dictionary = {"BLOCKED": "Blocked terrain", "CORNER_BLOCKED": "Blocked corner", "OUT_OF_BOUNDS": "Region boundary", "NOT_VISIBLE": "Not currently visible"}
+const FAILURE_MESSAGES: Dictionary = {"BLOCKED": "Blocked terrain", "CORNER_BLOCKED": "Blocked corner", "OUT_OF_BOUNDS": "Region boundary", "NOT_VISIBLE": "Not currently visible",
+	"TARGET_UNAVAILABLE": "Select a visible living target", "OUT_OF_RANGE": "Target beyond attack range 1",
+	"OBSTRUCTED": "Attack blocked by terrain", "INSUFFICIENT_STAMINA": "Low stamina: Wait to recover",
+	"OCCUPIED": "Actor blocks this step", "PLAYER_DEFEATED": "Defeated: Regenerate for a fresh region"}
 const KEY_DIRECTIONS: Dictionary = {
 	KEY_UP: Vector2i.UP, KEY_W: Vector2i.UP, KEY_KP_8: Vector2i.UP,
 	KEY_DOWN: Vector2i.DOWN, KEY_S: Vector2i.DOWN, KEY_KP_2: Vector2i.DOWN,
@@ -26,6 +29,8 @@ var simulation: Session
 var seed_value: int = 1337
 var active: bool = false
 var result_history: Array[Dictionary] = []
+var selected_target: String = ""
+var _combat_messages: Array[String] = []
 var _request_id: int = 0
 var _last_input_frame: int = -1
 var _primary_touch: int = -1
@@ -39,6 +44,7 @@ func _ready() -> void:
 	%Regenerate.pressed.connect(regenerate)
 	%NextSeed.pressed.connect(_next_seed)
 	%Wait.pressed.connect(wait_action)
+	%Attack.pressed.connect(attack_action)
 	%MapContainer.gui_input.connect(_map_input)
 	for index in range(BUTTONS.size()):
 		get_node("%" + BUTTONS[index]).pressed.connect(move.bind(DIRECTIONS[index]))
@@ -54,14 +60,17 @@ func set_active(value: bool) -> void:
 func regenerate() -> void:
 	if simulation != null:
 		simulation.result_published.disconnect(_on_result)
-	simulation = Session.new(seed_value)
+	simulation = Session.new(seed_value,null,"i004-v1")
 	simulation.result_published.connect(_on_result)
 	_request_id = 0
 	result_history.clear()
+	selected_target = ""
+	_combat_messages.clear()
+	%CombatLog.text = "Tap a visible mite to select. Attack: 3 stamina."
 	_clear_gestures()
 	region = simulation.view()
 	world.display_region(region)
-	_update_labels("Tap map: Inspect. Centre: Wait. Rock blocks sight.")
+	_update_labels("Explore carefully. Wait restores 4 stamina and guards.")
 
 
 func _next_seed() -> void:
@@ -95,24 +104,76 @@ func inspect_at(cell: Vector2i) -> void:
 		simulation.submit(Command.inspect(_request_id, cell))
 
 
+func attack_action() -> void:
+	if _admit():
+		simulation.submit(Command.attack(_request_id,selected_target))
+
+
 func _on_result(result: Result) -> void:
+	var previous_hostiles: Array[String] = []
+	for record: Dictionary in region.actors:
+		if record["id"] != "player":
+			previous_hostiles.append(record["id"])
 	result_history.append(result.record())
 	if result_history.size() > 32:
 		result_history.pop_front()
-	region = simulation.view()
-	world.display_region(region)
 	var message: String = "Action +%d time. Tap map to inspect." % result.cost
 	if not result.success:
 		message = "%s — no time used." % FAILURE_MESSAGES.get(result.code, "Action unavailable")
 	elif not result.inspection.is_empty():
 		var cell: Array = result.inspection["cell"]
 		message = "%s at %d,%d — no time used." % [["Ground", "Rock", "Water", "Entrance"][result.inspection["terrain"]], cell[0], cell[1]]
+		var inspected: Dictionary = result.inspection.get("actor",{})
+		if not inspected.is_empty():
+			message = "%s · armor %d · physical resist %d%% · range %d" % [inspected["name"],inspected["armor"],inspected["resistances"][0][1],inspected["attack_range"]]
+			if inspected["id"] != "player":
+				selected_target = inspected["id"]
+	if not selected_target.is_empty() and simulation.actor_view(selected_target).is_empty():
+		selected_target = ""
+	world.selected_target = selected_target
+	region = simulation.view()
+	world.display_region(region)
+	for record: Dictionary in region.actors:
+		if record["id"] != "player" and record["id"] not in previous_hostiles:
+			_log("Hollow mite spotted: tap to inspect")
+	for event: Dictionary in result.events:
+		if event["type"] == "damage":
+			_log("%s → %s: %d %s damage" % [_short_name(event["actor_id"]),_short_name(event["target_id"]),event["amount"],event["damage_type"]])
+			world.hit_feedback(event["target_id"])
+		elif event["type"] == "miss":
+			_log("%s → %s: miss" % [_short_name(event["actor_id"]),_short_name(event["target_id"])])
+		elif event["type"] == "actor_died":
+			_log("%s defeated" % _short_name(event["actor_id"]))
+		elif event["type"] == "enemy_moved" and event["behavior"] == "retreat":
+			_log("Mite retreats from danger")
+		elif event["type"] == "enemy_left_sight":
+			_log("Mite leaves sight; target cleared")
 	_update_labels(message)
+
+
+func _short_name(id: String) -> String:
+	return "You" if id == "player" else "Mite"
+
+
+func _log(message: String) -> void:
+	_combat_messages.append(message)
+	if _combat_messages.size() > 8:
+		_combat_messages.pop_front()
+	%CombatLog.text = "\n".join(_combat_messages.slice(maxi(0,_combat_messages.size()-2)))
 
 
 func _update_labels(message: String) -> void:
 	%SeedPosition.text = "Seed %d · %d,%d · #%d t%d" % [seed_value, region.player_cell.x, region.player_cell.y, simulation.action_index, simulation.simulation_time]
 	%RegionStatus.text = message
+	var player: Dictionary = simulation.actor_view("player")
+	var target: Dictionary = simulation.actor_view(selected_target)
+	%PlayerVitals.text = "HP %d/%d · Stamina %d/%d" % [player["hp"],player["max_hp"],player["stamina"],player["max_stamina"]]
+	%PlayerVitals.text += "\nTarget: %s" % ("tap visible mite" if target.is_empty() else "%s %d/%d HP · %s" % [target["name"],target["hp"],target["max_hp"],target["behavior"]])
+	var defeated: bool = simulation.is_defeated()
+	for name in BUTTONS + ["Wait","Attack"]:
+		get_node("%"+name).disabled = defeated
+	if defeated:
+		%RegionStatus.text = "Defeated — Regenerate to try again. No saved run."
 
 
 func _map_input(event: InputEvent) -> void:
@@ -168,10 +229,12 @@ func _input(event: InputEvent) -> void:
 		if not event.echo:
 			move(KEY_DIRECTIONS[event.physical_keycode])
 		get_viewport().set_input_as_handled()
-	elif event.physical_keycode in [KEY_SPACE, KEY_PERIOD, KEY_KP_5, KEY_I]:
+	elif event.physical_keycode in [KEY_SPACE, KEY_PERIOD, KEY_KP_5, KEY_I, KEY_F]:
 		if not event.echo:
 			if event.physical_keycode == KEY_I:
 				inspect_at(simulation.player_cell)
+			elif event.physical_keycode == KEY_F:
+				attack_action()
 			else:
 				wait_action()
 		get_viewport().set_input_as_handled()

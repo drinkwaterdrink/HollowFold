@@ -23,4 +23,6 @@ Invoke-GodotCheck 'region-tests' @('--script', 'tests/headless/region_tests.gd')
 Invoke-GodotCheck 'region-scene-smoke' @('--script', 'tests/headless/region_scene_smoke.gd')
 Invoke-GodotCheck 'simulation-tests' @('--script', 'tests/headless/simulation_tests.gd')
 Invoke-GodotCheck 'simulation-scene-smoke' @('--script', 'tests/headless/simulation_scene_smoke.gd')
-Write-Output 'VERIFY: import, main boot, I-001/I-002 regressions and I-003 simulation suites PASS'
+Invoke-GodotCheck 'combat-tests' @('--script', 'tests/headless/combat_tests.gd')
+Invoke-GodotCheck 'combat-scene-smoke' @('--script', 'tests/headless/combat_scene_smoke.gd')
+Write-Output 'VERIFY: import, main boot, I-001/I-002/I-003 regressions and I-004 combat suites PASS'

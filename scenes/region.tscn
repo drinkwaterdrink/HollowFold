@@ -32,7 +32,7 @@ follow_focus = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
 [node name="Header" type="HBoxContainer" parent="SafeArea/Scroll/Layout"]
 layout_mode = 2
@@ -58,9 +58,16 @@ theme_override_font_sizes/font_size = 14
 text = "Seed 1337"
 autowrap_mode = 3
 
+[node name="PlayerVitals" type="Label" parent="SafeArea/Scroll/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "HP 30/30 · Stamina 12/12"
+autowrap_mode = 3
+
 [node name="MapContainer" type="SubViewportContainer" parent="SafeArea/Scroll/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 160)
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
 size_flags_vertical = 3
 stretch = true
@@ -88,22 +95,34 @@ position_smoothing_enabled = false
 
 [node name="RegionStatus" type="Label" parent="SafeArea/Scroll/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 36)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Rock and blue water block movement."
 autowrap_mode = 3
 
+[node name="CombatLog" type="Label" parent="SafeArea/Scroll/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 32)
+theme_override_font_sizes/font_size = 13
+text = "Tap a visible mite to select."
+autowrap_mode = 3
+
 [node name="PadCenter" type="CenterContainer" parent="SafeArea/Scroll/Layout"]
 layout_mode = 2
 
-[node name="Pad" type="GridContainer" parent="SafeArea/Scroll/Layout/PadCenter"]
+[node name="PadRow" type="HBoxContainer" parent="SafeArea/Scroll/Layout/PadCenter"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Pad" type="GridContainer" parent="SafeArea/Scroll/Layout/PadCenter/PadRow"]
 layout_mode = 2
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
 columns = 3
 
-[node name="NorthWest" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="NorthWest" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -112,7 +131,7 @@ theme_override_constants/outline_size = 0
 text = "↖"
 tooltip_text = "Northwest (Q)"
 
-[node name="North" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="North" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -120,7 +139,7 @@ theme_override_font_sizes/font_size = 20
 text = "↑"
 tooltip_text = "North (W / Up)"
 
-[node name="NorthEast" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="NorthEast" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -128,7 +147,7 @@ theme_override_font_sizes/font_size = 20
 text = "↗"
 tooltip_text = "Northeast (E)"
 
-[node name="West" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="West" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -136,7 +155,7 @@ theme_override_font_sizes/font_size = 20
 text = "←"
 tooltip_text = "West (A / Left)"
 
-[node name="Wait" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="Wait" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -144,7 +163,7 @@ theme_override_font_sizes/font_size = 14
 text = "Wait"
 tooltip_text = "Wait one action (Space / period)"
 
-[node name="East" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="East" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -152,7 +171,7 @@ theme_override_font_sizes/font_size = 20
 text = "→"
 tooltip_text = "East (D / Right)"
 
-[node name="SouthWest" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="SouthWest" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -160,7 +179,7 @@ theme_override_font_sizes/font_size = 20
 text = "↙"
 tooltip_text = "Southwest (Z)"
 
-[node name="South" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="South" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
@@ -168,13 +187,21 @@ theme_override_font_sizes/font_size = 20
 text = "↓"
 tooltip_text = "South (S / Down)"
 
-[node name="SouthEast" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="SouthEast" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow/Pad"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "↘"
 tooltip_text = "Southeast (C)"
+
+[node name="Attack" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/PadRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Attack"
+tooltip_text = "Attack selected visible target (F); range 1, cost 100 time and 3 stamina"
 
 [node name="DebugActions" type="HBoxContainer" parent="SafeArea/Scroll/Layout"]
 layout_mode = 2

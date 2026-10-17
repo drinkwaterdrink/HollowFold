@@ -1,0 +1,152 @@
+{
+  "seed": 1337,
+  "content_version": "i004-v1",
+  "actors": [
+    {
+      "id": "player",
+      "cell": [
+        2,
+        4
+      ],
+      "max_hp": 12,
+      "offense": 7
+    },
+    {
+      "id": "mite-001",
+      "name": "Hollow mite",
+      "cell": [
+        5,
+        4
+      ],
+      "max_hp": 100,
+      "max_stamina": 8,
+      "offense": 4,
+      "accuracy": 75,
+      "armor": 1,
+      "stamina_cost": 2,
+      "attack_cost": 120,
+      "ai": "hostile"
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "kind": 0,
+      "direction": [
+        1,
+        0
+      ]
+    },
+    {
+      "id": 2,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 3,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 4,
+      "kind": 1
+    },
+    {
+      "id": 5,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 6,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 7,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 8,
+      "kind": 1
+    },
+    {
+      "id": 9,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 10,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 11,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 12,
+      "kind": 1
+    },
+    {
+      "id": 13,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 14,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 15,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 16,
+      "kind": 1
+    },
+    {
+      "id": 17,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 18,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 19,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 20,
+      "kind": 1
+    },
+    {
+      "id": 21,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 22,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 23,
+      "kind": 3,
+      "target_id": "mite-001"
+    },
+    {
+      "id": 24,
+      "kind": 1
+    }
+  ],
+  "sha256": "a15623f036fcc22c88b460227f972a3eb5a05b5e8d2860c61057e029ea4798e7",
+  "events_sha256": "3e6df1da26affeb7c6cf101fafa77b32fd3fdd6a6b23b6596b680b551d92c428"
+}

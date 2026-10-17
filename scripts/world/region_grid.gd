@@ -14,6 +14,7 @@ var entrance_cell: Vector2i = Vector2i.ZERO
 var player_cell: Vector2i = Vector2i.ZERO
 var visible: PackedByteArray = PackedByteArray()
 var discovered: PackedByteArray = PackedByteArray()
+var actors: Array[Dictionary] = [] # Detached currently-visible actor records only.
 
 
 func _init(grid_width: int, grid_height: int) -> void:

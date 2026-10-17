@@ -4,7 +4,8 @@
 |---|---|---|---|---|
 | I-001 | ACCEPTED — user approved 2026-10-17 | Agent import/boot, 28 checks, rendered navigation, APK verification and CI PASS; user reports all nine required Android manual checks PASS | None for required acceptance; optional evidence/coverage follow-ups below | `7fd6ac0f148971cde3a35f8501a37df3d102cde7` |
 | I-002 | ACCEPTED — user approved 2026-10-17 | Prior agent tests/build/CI PASS; user reports all ten Android acceptance checks PASS on version 0.2.0, including five-minute exploration | No required acceptance blocker; optional metadata/captures/test coverage remain nonblocking | `7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725` |
-| I-003 | ACCEPTED — user approved 2026-10-17 | Replay canonical hash; 82 simulation + 18 input/frame checks; bootstrap 28, terrain 14,216 and region 17 checks; rendered Wait/Inspect/fog/input/portrait checks; signed APK; hosted CI PASS | No required acceptance blocker; all nine groups passed in user-reported phone testing | `ec34a61d77e1807ae0e97071dccab694b0adc72c` |
+| I-003 | ACCEPTED — user approved 2026-10-17 | All nine 0.3.0 physical groups PASS (user-reported); replay canonical hash; 82 simulation + 18 input/frame checks; bootstrap 28, terrain 14,216 and region 17 checks; rendered Wait/Inspect/fog/input/portrait checks; signed APK; hosted CI PASS | No required acceptance blocker; all nine groups passed in user-reported phone testing | `ec34a61d77e1807ae0e97071dccab694b0adc72c` |
+| I-004 | IMPLEMENTED; physical acceptance UNVERIFIED | Import/boot; all seven headless and four rendered suites PASS; combat259/scene18; signed0.4.0 APK; details below | User phone combat acceptance pending | Implementation hash recorded after push |
 
 Do not mark on-device acceptance criteria PASS without a real APK installation and observed behavior.
 
@@ -31,7 +32,7 @@ Do not mark on-device acceptance criteria PASS without a real APK installation a
 - Agent-run ADB checks listed no device. Subsequently the user reported ten physical PASS results for version 0.2.0 and officially approved I-002. These are **user-reported real-device results**, not tests independently performed by the agent; exact checklist is in the I-002 verification document.
 - Implementation `7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725` (`feat: implement I-002 deterministic region exploration`) committed/pushed to origin/main. Local/remote SHA equality and clean tree verified after push.
 - Hosted [CI run 39047443791](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39047443791) completed **successfully** against that implementation SHA. GitHub API confirmed engine download and import/boot/all-headless-suite steps passed on Linux, including the committed map fixture. This documentation follow-up records the actual hash/result without changing runtime code.
-- I-003 is now explicitly authorized by the user. **I-005 and later NOT AUTHORIZED / NOT STARTED**. Missing optional screenshots/device metadata or extra automated coverage do not block the user's I-002 approval.
+- I-003 was authorized and is now accepted; I-004 is authorized. **I-005 and later NOT AUTHORIZED / NOT STARTED**. Missing optional screenshots/device metadata or extra automated coverage do not block the user's I-002 approval.
 
 ## I-003 evidence — 2026-10-17
 
@@ -50,3 +51,13 @@ Do not mark on-device acceptance criteria PASS without a real APK installation a
 ## I-003 physical acceptance — 2026-10-17
 
 The user installed version **0.3.0** and reports all nine manual acceptance groups PASS with no problems observed. These are **user-reported physical-device results**, not independently executed agent tests. Required AC-I003 is complete. The exact nine groups are recorded in [I-003 verification](I-003_Verification.md#user-reported-physical-acceptance). No unperformed automated test is promoted to PASS. Optional device metadata/screenshots remain nonblocking. I-004 only is now authorized.
+
+## I-004 implementation evidence — 2026-10-17
+
+- [Plan](plans/I-004_Implementation_Plan.md), [architecture, AC-I004, actual results and physical checklist](I-004_Verification.md). I-003 acceptance committed separately as `86355f0`.
+- Shared authoritative actor/combat state, validated Attack, hit/armor/resistance, bounded guard status, HP/stamina, scheduler-driven own-senses pursue/retreat, death-once/removal and temporary defeat. Visible target selection, Attack/F, vitals/log/feedback; no I-005 inventory/loot/save/art overhaul.
+- Current local verification: import/boot; bootstrap28, terrain14,216, region17, simulation82, simulation-scene18, combat259 and combat-scene18 checks, all zero failures. All four desktop rendered suites passed; portrait captures inspected. Final post-review checks/export and hosted CI are recorded in the verification report.
+- Original `i003-v1` golden `c012bae20d987d6690063267db09e1d4f890bec37a7478f611b93356b42de328` remains unchanged. New combat state golden `a15623f036fcc22c88b460227f972a3eb5a05b5e8d2860c61057e029ea4798e7`; event golden `3e6df1da26affeb7c6cf101fafa77b32fd3fdd6a6b23b6596b680b551d92c428`. Includes movement, engagement, misses/damage, enemy turns and player death. Separate default seed1337 test wins against the actual mite and exercises retreat.
+- Review findings resolved: scheduler registration outside assert; hidden readiness filtered; LOS-boundary arrival/departure events redact unknown endpoints. Privacy regressions reproduced RED then GREEN.
+- No phone attached: I-004 physical testing **UNVERIFIED**, independent of prior user acceptance. New APK `builds/android/Hollowfold-I004-debug.apk`, version0.4.0/code4, same key/app ID.
+- Implementation commit and hosted run will be recorded after push in the evidence follow-up. **STOP after I-004. I-005 not authorized.**

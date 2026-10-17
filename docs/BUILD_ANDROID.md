@@ -14,7 +14,7 @@ The following portable tools were installed under this checkout's ignored `.loca
 | JDK | `.local/tools/jdk/jdk-17.0.20.1+1` (OpenJDK 17) |
 | Android SDK | `.local/android-sdk`, platform-tools, build-tools 36.0.0 and platform android-36 (35 tools also installed during initial investigation) |
 | Development key | `.local/debug.keystore`, generated locally; never upload/commit |
-| Current APK | `builds/android/Hollowfold-I003-debug.apk` (ignored); previous I-001/I-002 APKs preserved |
+| Current APK | `builds/android/Hollowfold-I004-debug.apk` (ignored); previous I-001/I-002/I-003 APKs preserved |
 
 From the repository root in PowerShell:
 
@@ -30,15 +30,16 @@ From the repository root in PowerShell:
 & '.local/tools/Godot_v4.7.2-stable_win64_console.exe' --path . --log-file "$PWD/.local/visual.log" --script tests/headless/visual_smoke.gd
 & '.local/tools/Godot_v4.7.2-stable_win64_console.exe' --path . --log-file "$PWD/.local/region-visual.log" --script tests/headless/region_visual_smoke.gd
 & '.local/tools/Godot_v4.7.2-stable_win64_console.exe' --path . --log-file "$PWD/.local/i003-visual.log" --script tests/headless/simulation_visual_smoke.gd
+& '.local/tools/Godot_v4.7.2-stable_win64_console.exe' --path . --log-file "$PWD/.local/i004-visual.log" --script tests/headless/combat_visual_smoke.gd
 ```
 
-`verify.ps1` checks the exact engine version, runs headless editor import, runs the configured main scene for 60 frames, then executes I-001 regressions, I-002 terrain/scene regressions and I-003 simulation/scene tests. It rejects nonzero exit codes **and** engine error messages. Logs go to `.local/verification/`. Rendered tests inject pointer/key/touch events through Godot's viewport and save PNGs; they are not physical phone tests or certification of Android's OS touch-to-mouse adapter.
+`verify.ps1` checks the exact engine version, runs headless editor import, runs the configured main scene for 60 frames, then executes I-001 regressions, I-002 terrain/scene regressions I-003 simulation/scene tests and I-004 combat/replay/AI/scene tests. It rejects nonzero exit codes **and** engine error messages. Logs go to `.local/verification/`. Rendered tests inject pointer/key/touch events through Godot's viewport and save PNGs; they are not physical phone tests or certification of Android's OS touch-to-mouse adapter.
 
 `export_android.ps1` configures only the portable editor's SDK/JDK paths, creates a development key if missing, exports the Android preset and verifies the signature. Local JDK/SDK/output paths can be overridden with `-JdkPath`, `-AndroidSdkPath`, `-OutputPath`. Preserve the debug key to install later debug updates over the same app. Losing it can require uninstalling the old debug app (which deletes app data); do not uninstall automatically. This is not release signing.
 
 ## Install and test on a real phone
 
-I-001 and I-002 were accepted following the user's reported physical passes. No authorized device or emulator is currently listed for agent-run I-003 checks, so **I-003 physical-device testing is UNVERIFIED**. The template's verified minimum is API 24 (Android 7.0), target API 36; this APK contains ARM64 only. Prior acceptance does not establish behavior of the changed I-003 APK.
+I-001 through I-003 were accepted following user-reported physical passes. No authorized device or emulator is listed for agent-run I-004 checks, so **I-004 physical-device testing is UNVERIFIED**. The template's verified minimum is API 24 (Android 7.0), target API 36; this APK contains ARM64 only. Prior acceptance does not establish behavior of the changed I-004 APK.
 
 1. Enable Developer options and USB debugging on an ARM64 Android phone. Connect a data-capable USB cable, unlock it and accept its debugging trust prompt. Install the manufacturer's Windows USB driver if ADB cannot see it.
 2. From the repository root, run:
@@ -47,18 +48,17 @@ I-001 and I-002 were accepted following the user's reported physical passes. No 
 $adb = "$PWD/.local/android-sdk/platform-tools/adb.exe"
 & $adb devices -l
 # Replace SERIAL with the authorized device's serial. Do not use an unauthorized entry.
-& $adb -s SERIAL install -r "$PWD/builds/android/Hollowfold-I003-debug.apk"
+& $adb -s SERIAL install -r "$PWD/builds/android/Hollowfold-I004-debug.apk"
 & $adb -s SERIAL shell am start -n io.github.drinkwaterdrink.hollowfold/com.godot.game.GodotAppLauncher
 # Capture logs and a screenshot after exercising the controls:
 & $adb -s SERIAL logcat -d -s godot AndroidRuntime > .local/verification/device-log.txt
-& $adb -s SERIAL shell screencap -p /sdcard/hollowfold-i003.png
-& $adb -s SERIAL pull /sdcard/hollowfold-i003.png .local/verification/device-portrait-i003.png
+& $adb -s SERIAL shell screencap -p /sdcard/hollowfold-i004.png
+& $adb -s SERIAL pull /sdcard/hollowfold-i004.png .local/verification/device-portrait-i004.png
 ```
 
-3. Follow the exact I-003 checklist in `docs/I-003_Verification.md`. New Run → Explore region. Check accepted Move/Wait adds 1 action and 100 time, blocked/diagonal input adds neither, map-tap Inspect is free and hidden Inspect reveals nothing. Idle/render/menu time must not advance gameplay. Check fog, camera, regeneration, next seed, rapid/overlapping touches and recovery, then original Settings/Back/portrait/inset behavior.
-4. Inspect every screen with gesture navigation and cutouts: no text/button overlaps system bars or camera holes; Back remains reachable, scrolling works on a small screen, text and touch targets feel comfortable. Repeat with larger system font/display settings; inherited system text scaling is not claimed to be implemented in I-001.
-5. Background/resume during exploration: position/action index/time must stay unchanged without process death. Force-stop/relaunch starts at title with no save. Use airplane mode for commands/regeneration/navigation. No combat, damage, AI, inventory, spells or saves exist yet.
-6. Save phone model, Android version and checklist results (captures/logs if possible) before approving I-003. I-004 requires separate authorization.
+3. Follow the exact I-004 checklist in [I-004_Verification.md](I-004_Verification.md). Explore, inspect/select the mite, Attack, check hit/miss/damage, HP/stamina, stamina recovery, pursuit/retreat, defeat and regeneration. Rejections and Inspect must not advance time or enemy turns. Rapid/overlapping touches must not duplicate attacks.
+4. Check small portrait screens, cutouts, gesture navigation, Back, background/resume and offline operation. Idle/menu time must not advance combat. Force-stop/relaunch returns to title without a saved run.
+5. Record phone model, Android version and PASS/FAIL results before approving I-004. **Do not begin I-005 without explicit approval.** No additional toolchain setup is needed on this computer; only phone connection/install/manual checks remain.
 
 ## Recreate the toolchain on another Windows machine
 

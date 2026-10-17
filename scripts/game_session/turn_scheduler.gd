@@ -5,6 +5,9 @@ const MAX_READY_EVENTS: int = 64
 var time: int = 0
 var _actors: Dictionary = {}
 
+func remove_actor(id: String) -> void:
+	_actors.erase(id)
+
 
 func add_actor(id: String, action_cost: int = 100, speed: int = 100) -> bool:
 	if id.is_empty() or _actors.has(id) or action_cost < 1 or action_cost > 10000 or speed < 1 or speed > 10000:

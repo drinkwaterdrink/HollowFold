@@ -2,6 +2,9 @@ extends Node2D
 ## Read-only terrain presentation. No terrain generation or collision decisions here.
 
 const Grid = preload("res://scripts/world/region_grid.gd")
+const EnemyMarker = preload("res://scripts/visual/enemy_marker.gd")
+var enemies: Dictionary = {}
+var selected_target: String = ""
 
 @onready var terrain: TileMapLayer = $Terrain
 @onready var actor: Node2D = $Player
@@ -24,7 +27,41 @@ func display_region(region: Grid) -> void:
 	camera.limit_right = region.width * Grid.TILE_SIZE
 	camera.limit_bottom = region.height * Grid.TILE_SIZE
 	display_player(region)
+	_display_enemies(region)
 	camera.reset_smoothing()
+
+
+func _display_enemies(region: Grid) -> void:
+	var visible_ids: Array[String] = []
+	for record: Dictionary in region.actors:
+		if record["id"] == "player":
+			actor.modulate = Color.WHITE if record["alive"] else Color("76586b")
+			continue
+		var id: String = record["id"]
+		visible_ids.append(id)
+		if not enemies.has(id):
+			var marker := Node2D.new()
+			marker.set_script(EnemyMarker)
+			marker.z_index = 2
+			add_child(marker)
+			enemies[id] = marker
+		var enemy: Node2D = enemies[id]
+		enemy.position = region.cell_to_world(Vector2i(record["cell"][0],record["cell"][1]))
+		enemy.set("selected", id == selected_target)
+		enemy.queue_redraw()
+	for id: String in enemies.keys():
+		if id not in visible_ids:
+			enemies[id].queue_free()
+			enemies.erase(id)
+
+
+func hit_feedback(id: String) -> void:
+	var marker: Node2D = actor if id == "player" else enemies.get(id)
+	if marker == null:
+		return
+	# Pure presentation tween; no callbacks into gameplay.
+	marker.scale = Vector2(1.2,1.2)
+	marker.create_tween().tween_property(marker,"scale",Vector2.ONE,0.12)
 
 
 func display_player(region: Grid) -> void:
