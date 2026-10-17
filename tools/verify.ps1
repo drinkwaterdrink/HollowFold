@@ -21,4 +21,6 @@ Invoke-GodotCheck 'scene-boot' @('--quit-after', '60')
 Invoke-GodotCheck 'bootstrap-smoke' @('--script', 'tests/headless/bootstrap_smoke.gd')
 Invoke-GodotCheck 'region-tests' @('--script', 'tests/headless/region_tests.gd')
 Invoke-GodotCheck 'region-scene-smoke' @('--script', 'tests/headless/region_scene_smoke.gd')
-Write-Output 'VERIFY: import, main scene boot, I-001 bootstrap and I-002 region suites PASS'
+Invoke-GodotCheck 'simulation-tests' @('--script', 'tests/headless/simulation_tests.gd')
+Invoke-GodotCheck 'simulation-scene-smoke' @('--script', 'tests/headless/simulation_scene_smoke.gd')
+Write-Output 'VERIFY: import, main boot, I-001/I-002 regressions and I-003 simulation suites PASS'

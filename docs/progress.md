@@ -4,6 +4,7 @@
 |---|---|---|---|---|
 | I-001 | ACCEPTED — user approved 2026-10-17 | Agent import/boot, 28 checks, rendered navigation, APK verification and CI PASS; user reports all nine required Android manual checks PASS | None for required acceptance; optional evidence/coverage follow-ups below | `7fd6ac0f148971cde3a35f8501a37df3d102cde7` |
 | I-002 | ACCEPTED — user approved 2026-10-17 | Prior agent tests/build/CI PASS; user reports all ten Android acceptance checks PASS on version 0.2.0, including five-minute exploration | No required acceptance blocker; optional metadata/captures/test coverage remain nonblocking | `7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725` |
+| I-003 | IMPLEMENTED; physical acceptance UNVERIFIED | Replay canonical hash; 82 simulation + 18 input/frame checks; bootstrap 28, terrain 14,216 and region 17 checks; rendered Wait/Inspect/fog/input/portrait checks; signed APK | User must test new 0.3.0 APK, especially real touch stress/OS emulation; no device attached | Implementation hash recorded after commit |
 
 Do not mark on-device acceptance criteria PASS without a real APK installation and observed behavior.
 
@@ -31,3 +32,15 @@ Do not mark on-device acceptance criteria PASS without a real APK installation a
 - Implementation `7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725` (`feat: implement I-002 deterministic region exploration`) committed/pushed to origin/main. Local/remote SHA equality and clean tree verified after push.
 - Hosted [CI run 39047443791](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39047443791) completed **successfully** against that implementation SHA. GitHub API confirmed engine download and import/boot/all-headless-suite steps passed on Linux, including the committed map fixture. This documentation follow-up records the actual hash/result without changing runtime code.
 - I-003 is now explicitly authorized by the user. **I-004 and later NOT AUTHORIZED / NOT STARTED**. Missing optional screenshots/device metadata or extra automated coverage do not block the user's I-002 approval.
+
+## I-003 evidence — 2026-10-17
+
+- User-reported I-002 acceptance/visual preference committed and pushed separately as `7f362ea`. No independent agent physical test is implied. Caves-quality art direction remains for I-005/I-022.
+- [Plan](plans/I-003_Implementation_Plan.md), [architecture/every changed file/actual evidence/AC-I003/exact Android checklist](I-003_Verification.md).
+- Single-writer commands/results, integer time/action index, bounded cost/speed scheduler, named RNG streams, detached views, LOS/fog/hidden Inspect. No I-004/combat/AI/inventory/save/art overhaul.
+- Full headless `verify.ps1` PASS: bootstrap 28, terrain 14,216, retained region-scene 17, simulation 82 and simulation-scene 18 checks, all zero failures. Rendered menu, region and I-003 suites PASS at three portrait sizes. No gameplay progression from idle frames/navigation.
+- Seed1337 replay fixture final cell (4,11), action3/time300, canonical SHA-256 `c012bae20d987d6690063267db09e1d4f890bec37a7478f611b93356b42de328`; includes player/time/scheduler/RNG/visibility, not just map.
+- Independent review identified stale-view test assertions/evidence wording; corrected and verified. Intentional echo mutant rejected; original restored. Overlap regression RED→GREEN, including routed synthetic-touch/emulated-pointer coverage. These do not certify Android OS behavior.
+- Final local APK `builds/android/Hollowfold-I003-debug.apk`, 0.3.0/code3, 28,356,092 bytes, SHA-256 `EAD7876C02078283248AFF2C7FEE934DC1EF44A43F6F228663B52617C9EF64B2`; export/signature/certificate/manifest/resources PASS. Same key/app ID; earlier APKs preserved.
+- ADB empty: physical I-003 acceptance remains **UNVERIFIED**. User's prior version results do not transfer to new code. Hosted CI and implementation hash recorded after push.
+- **STOP after I-003. I-004 NOT AUTHORIZED / NOT STARTED.**

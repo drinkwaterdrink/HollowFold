@@ -32,6 +32,7 @@ func _run() -> void:
 		var before: Vector2i = model.player_cell
 		if model.is_walkable(before + directions[index]):
 			await _click(screen.get_node("%" + buttons[index]))
+			model = screen.get("region")
 			_check(model.player_cell == before + directions[index], "pointer makes exactly one grid step")
 			moved = true
 			break
@@ -45,6 +46,7 @@ func _run() -> void:
 			key.pressed = true
 			root.push_input(key, true)
 			await _settle()
+			model = screen.get("region")
 			_check(model.player_cell == before + directions[index], "viewport keyboard reaches movement before GUI focus handling")
 			key = key.duplicate()
 			key.pressed = false

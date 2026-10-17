@@ -56,6 +56,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Seed 1337"
+autowrap_mode = 3
 
 [node name="MapContainer" type="SubViewportContainer" parent="SafeArea/Scroll/Layout"]
 unique_name_in_owner = true
@@ -63,7 +64,7 @@ custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
 size_flags_vertical = 3
 stretch = true
-mouse_filter = 2
+mouse_filter = 0
 
 [node name="MapViewport" type="SubViewport" parent="SafeArea/Scroll/Layout/MapContainer"]
 unique_name_in_owner = true
@@ -135,12 +136,13 @@ theme_override_font_sizes/font_size = 20
 text = "←"
 tooltip_text = "West (A / Left)"
 
-[node name="MoveLabel" type="Label" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+[node name="Wait" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 48)
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "Move"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "Wait"
+tooltip_text = "Wait one action (Space / period)"
 
 [node name="East" type="Button" parent="SafeArea/Scroll/Layout/PadCenter/Pad"]
 unique_name_in_owner = true

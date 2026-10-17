@@ -1,7 +1,7 @@
 extends RefCounted
-## Logical terrain and temporary player position. No scene, input or timing dependency.
+## Terrain and detached presentation/fixture data. Runtime position is owned by SimulationSession.
 
-enum Terrain { GROUND, ROCK, WATER, ENTRANCE }
+enum Terrain { GROUND, ROCK, WATER, ENTRANCE, UNKNOWN }
 const TILE_SIZE: int = 24
 const GENERATION_REVISION: int = 1
 
@@ -12,6 +12,8 @@ var cells: PackedByteArray = PackedByteArray()
 var spawn_cell: Vector2i = Vector2i.ZERO
 var entrance_cell: Vector2i = Vector2i.ZERO
 var player_cell: Vector2i = Vector2i.ZERO
+var visible: PackedByteArray = PackedByteArray()
+var discovered: PackedByteArray = PackedByteArray()
 
 
 func _init(grid_width: int, grid_height: int) -> void:
@@ -39,15 +41,22 @@ func is_walkable(cell: Vector2i) -> bool:
 
 
 func try_move(direction: Vector2i) -> bool:
+	# Compatibility fixture helper; runtime gameplay commits only through SimulationSession.
+	if not can_step(player_cell, direction):
+		return false
+	player_cell += direction
+	return true
+
+
+func can_step(from_cell: Vector2i, direction: Vector2i) -> bool:
 	if direction == Vector2i.ZERO or absi(direction.x) > 1 or absi(direction.y) > 1:
 		return false
-	var target: Vector2i = player_cell + direction
+	var target: Vector2i = from_cell + direction
 	if not is_walkable(target):
 		return false
 	if direction.x != 0 and direction.y != 0:
-		if not is_walkable(player_cell + Vector2i(direction.x, 0)) or not is_walkable(player_cell + Vector2i(0, direction.y)):
+		if not is_walkable(from_cell + Vector2i(direction.x, 0)) or not is_walkable(from_cell + Vector2i(0, direction.y)):
 			return false
-	player_cell = target
 	return true
 
 

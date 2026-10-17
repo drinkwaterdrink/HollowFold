@@ -14,11 +14,13 @@ Repository: [drinkwaterdrink/HollowFold](https://github.com/drinkwaterdrink/Holl
 
 ## Workflow
 
-Read `AGENTS.md`. Implement one I-packet at a time. Start with I-001 and do not begin I-002 without the human's review.
+Read `AGENTS.md`. Implement one authorized I-packet at a time; do not begin the next packet without the user's approval.
 
-The project contains the title menu, New Run launch panel, Settings/Back navigation and I-002's temporary seeded region explorer. Android application ID: `io.github.drinkwaterdrink.hollowfold`.
+The project contains the title/menu and seeded region explorer with I-003's deterministic Move/Wait/Inspect engine, logical time and basic line-of-sight/fog. Android application ID: `io.github.drinkwaterdrink.hollowfold`.
 
-Choose **New Run → Explore region**. Use the eight-way pad, arrows/WASD or Q/E/Z/C for diagonals. Rock and water block this temporary actor. **Regenerate** recreates the same seed and resets its spawn; **Next seed** selects the next integer seed. **Back** returns to the New Run panel, then title. Exploration has no saves, turns, enemies or combat yet.
+Choose **New Run → Explore region**. Use the eight-way pad, arrows/WASD or Q/E/Z/C for diagonals. Rock and water block movement; rock also blocks sight. Centre **Wait** (Space/period) advances one action. Tap a map tile to **Inspect**, or press I to inspect the player's tile. Inspect is free and cannot reveal hidden terrain. Every accepted Move/Wait advances the action counter by 1 and time by 100; rejected input, idle frames and navigation advance neither. Unknown tiles are concealed; remembered tiles outside current sight are dim.
+
+**Regenerate** resets the same seed, spawn, turns/time, RNG and fog; **Next seed** selects the next seed. **Back** returns to the launch panel, then title. Exploration remains temporary, with no saves, enemies, combat or inventory. Normal separate taps are discrete actions; overlapping touches/input within one frame are conservatively ignored to prevent duplicate commands.
 
 ## Open, verify and build
 
@@ -29,11 +31,12 @@ Open `project.godot` in **Godot 4.7.2 stable** (Compatibility). From the reposit
 ./tools/export_android.ps1
 ```
 
-The portable engine, JDK, SDK and export templates are already prepared locally under ignored `.local/`. The I-002 signed debug APK is at `builds/android/Hollowfold-I002-debug.apk`; generated binaries and signing material are not in Git. The previous I-001 APK is preserved separately.
+The portable engine, JDK, SDK and export templates are already prepared locally under ignored `.local/`. The I-003 signed debug APK is at `builds/android/Hollowfold-I003-debug.apk`; generated binaries and signing material are not in Git. Previous APKs are preserved separately.
 
 - Setup, exact commands and phone checklist: [Android build guide](docs/BUILD_ANDROID.md)
 - Actual checks, results and acceptance limits: [I-001 verification](docs/I-001_Verification.md)
 - Region generation, acceptance and manual Android checklist: [I-002 verification](docs/I-002_Verification.md)
+- Commands, state/hash, actual evidence and exact Android checklist: [I-003 verification](docs/I-003_Verification.md)
 - Asset provenance and notices: [Licenses and assets](LICENSES_AND_ASSETS.md)
 
-I-001 was accepted on 2026-10-17 after the user reported all nine required physical Android checks passing. I-002 has separate acceptance: its new APK still requires a physical phone walkthrough; agent-run phone testing is **UNVERIFIED**. I-003 is not authorized or implemented.
+I-001 and I-002 were accepted after the user reported their required physical Android checks passing. I-003 requires separate physical testing of its new APK; agent-run phone testing is **UNVERIFIED**. I-004 is not authorized or implemented. Future I-005/I-022 art/UI work should pursue the recorded Caves (Android) quality direction; I-003 retains prototype graphics.

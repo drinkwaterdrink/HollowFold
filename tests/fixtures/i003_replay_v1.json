@@ -1,0 +1,18 @@
+{
+  "seed": 1337,
+  "content_version": "i003-v1",
+  "commands": [
+    {"id": 1, "kind": 2, "target": [3, 11]},
+    {"id": 2, "kind": 0, "direction": [0, 1]},
+    {"id": 3, "kind": 1},
+    {"id": 4, "kind": 0, "direction": [-1, 0]},
+    {"id": 5, "kind": 0, "direction": [0, -1]},
+    {"id": 6, "kind": 2, "target": [0, 0]},
+    {"id": 7, "kind": 1},
+    {"id": 7, "kind": 1},
+    {"id": 8, "kind": 0, "direction": [1, 0]}
+  ],
+  "sha256": "c012bae20d987d6690063267db09e1d4f890bec37a7478f611b93356b42de328",
+  "action_index": 3,
+  "time": 300
+}

@@ -51,6 +51,7 @@ func _run() -> void:
 		var direction: Vector2i = directions[index]
 		if model.is_walkable(start + direction):
 			screen.get_node("%" + buttons[index]).pressed.emit()
+			model = screen.get("region")
 			_check(model.player_cell == start + direction, "directional button moves exactly one logical cell")
 			_check(player.position == model.cell_to_world(model.player_cell) and camera.position == player.position, "movement synchronizes actor/camera")
 			break
@@ -61,12 +62,15 @@ func _run() -> void:
 	screen.get_node("%NextSeed").pressed.emit()
 	model = screen.get("region")
 	_check(screen.get("seed_value") == 1338 and model.fingerprint() != original_hash, "Next seed varies generated terrain")
-	# Explicit fixture verifies blocked input through the UI adapter, including echo rejection.
-	model.player_cell = Vector2i(0, 0)
-	world.display_player(model)
+	# Authoritative state is private; find a real adjacent obstruction instead of editing it.
+	var before_cell: Vector2i = model.player_cell
 	var before: Vector2 = player.position
-	screen.get_node("%West").pressed.emit()
-	_check(model.player_cell == Vector2i.ZERO and player.position == before, "blocked button cannot move actor/model")
+	for index in range(directions.size()):
+		if not model.is_walkable(before_cell + directions[index]):
+			screen.get_node("%" + buttons[index]).pressed.emit()
+			break
+	model = screen.get("region")
+	_check(model.player_cell == before_cell and player.position == before, "blocked button cannot move actor/model")
 	screen.get_node("%Regenerate").pressed.emit()
 	model = screen.get("region")
 	var legal_key: int = KEY_UP
@@ -78,8 +82,10 @@ func _run() -> void:
 			break
 	before = Vector2(model.player_cell)
 	_key(screen, legal_key, true)
+	model = screen.get("region")
 	_check(model.player_cell == Vector2i(before), "held keyboard echo does not repeat movement")
 	_key(screen, legal_key)
+	model = screen.get("region")
 	_check(model.player_cell == Vector2i(before) + legal_direction, "keyboard movement works while button has focus")
 	boot.notification(Node.NOTIFICATION_WM_GO_BACK_REQUEST)
 	await process_frame
@@ -87,6 +93,7 @@ func _run() -> void:
 	var hidden_cell: Vector2i = model.player_cell
 	_key(screen, legal_key)
 	screen.get_node("%North").pressed.emit()
+	model = screen.get("region")
 	_check(model.player_cell == hidden_cell, "hidden region ignores keyboard and movement buttons")
 	boot.get_node("%ExploreRegion").pressed.emit()
 	var cancel := InputEventAction.new()

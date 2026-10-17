@@ -15,7 +15,10 @@ func display_region(region: Grid) -> void:
 	for y in range(region.height):
 		for x in range(region.width):
 			var cell := Vector2i(x, y)
-			terrain.set_cell(cell, 0, Vector2i(region.terrain_at(cell), 0))
+			var tile: int = region.terrain_at(cell)
+			if tile != Grid.Terrain.UNKNOWN and not region.visible.is_empty() and region.visible[y * region.width + x] == 0:
+				tile += 5 # Remembered terrain is dim; unknown terrain is absent from the view.
+			terrain.set_cell(cell, 0, Vector2i(tile, 0))
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = region.width * Grid.TILE_SIZE
@@ -32,7 +35,7 @@ func display_player(region: Grid) -> void:
 
 func _make_tileset() -> TileSet:
 	# Four original code-drawn prototype tiles: ground, rock, water, entrance.
-	var image := Image.create(Grid.TILE_SIZE * 4, Grid.TILE_SIZE, false, Image.FORMAT_RGBA8)
+	var image := Image.create(Grid.TILE_SIZE * 9, Grid.TILE_SIZE, false, Image.FORMAT_RGBA8)
 	var colors: Array[Color] = [Color("293b35"), Color("484c50"), Color("24546a"), Color("293b35")]
 	for tile in range(4):
 		var origin: int = tile * Grid.TILE_SIZE
@@ -50,10 +53,15 @@ func _make_tileset() -> TileSet:
 		else:
 			image.fill_rect(Rect2i(origin + 5, 6, 2, 2), Color("405448"))
 			image.fill_rect(Rect2i(origin + 17, 17, 2, 2), Color("1d302c"))
+	image.fill_rect(Rect2i(4 * Grid.TILE_SIZE, 0, Grid.TILE_SIZE, Grid.TILE_SIZE), Color("0c1012"))
+	for tile in range(4):
+		for y in range(Grid.TILE_SIZE):
+			for x in range(Grid.TILE_SIZE):
+				image.set_pixel((tile + 5) * Grid.TILE_SIZE + x, y, image.get_pixel(tile * Grid.TILE_SIZE + x, y).darkened(0.65))
 	var atlas := TileSetAtlasSource.new()
 	atlas.texture = ImageTexture.create_from_image(image)
 	atlas.texture_region_size = Vector2i(Grid.TILE_SIZE, Grid.TILE_SIZE)
-	for tile in range(4):
+	for tile in range(9):
 		atlas.create_tile(Vector2i(tile, 0))
 	var result := TileSet.new()
 	result.tile_size = Vector2i(Grid.TILE_SIZE, Grid.TILE_SIZE)

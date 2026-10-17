@@ -1,9 +1,9 @@
-; Hollowfold — I-002 local region. Open with Godot 4.7.2 stable.
+; Hollowfold — I-003 deterministic simulation. Open with Godot 4.7.2 stable.
 config_version=5
 
 [application]
 config/name="Hollowfold"
-config/version="0.2.0"
+config/version="0.3.0"
 run/main_scene="res://scenes/boot.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://assets/icon.svg"
