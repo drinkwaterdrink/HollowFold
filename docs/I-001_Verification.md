@@ -53,10 +53,12 @@ Rendered screenshots: `.local/verification/title.png`, `new-run.png`, `settings.
 | Documented headless scene smoke command | PASS | `./tools/verify.ps1` ran successfully |
 | No tracked signing secrets or generated APK/SDK | PASS at local audit | Ignore rules, explicit staging and tracked-path inspection required before commit |
 | Clean repository and implementation pushed | Recorded in final report | Confirm with `git status --short --branch` and local/remote SHA equality after commit |
-| GitHub CI execution | UNVERIFIED before push | Workflow is included; local script PASS does not claim a hosted run |
+| GitHub CI execution | PASS | [Run 39044645463](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39044645463) completed successfully against implementation `7fd6ac0f148971cde3a35f8501a37df3d102cde7`; GitHub API confirmed engine-download and import/boot/test steps succeeded |
 
 **Overall:** Implementation and debug export ready for review; AC-I001 remains **UNVERIFIED** as a whole until physical-device acceptance. I-002 remains gated on the user's review/authorization.
 
 APK from the successful export: 28,317,023 bytes (27.01 MiB), SHA-256 `842FD09960535892142F46B3107F499C4DDF7784A5084900C0DBB75049E2A8EB`. Rebuilding may change ZIP/signature timestamps and hash. [BUILD_ANDROID.md](BUILD_ANDROID.md) contains exact install/launch, capture and manual acceptance steps.
 
 Independent read-only code review found no material findings. Optional test coverage deferred: automated small-window assertions currently cover title controls, not child-panel scrolling/Back reachability at deliberately short heights. Real phone reachability remains explicitly UNVERIFIED.
+
+Implementation commit `7fd6ac0f148971cde3a35f8501a37df3d102cde7` was pushed to origin/main; remote/local SHA equality and clean working tree were verified. A subsequent documentation-only commit records this actual hash and hosted CI result. No runtime files changed after the successful local build and review.
