@@ -1,6 +1,6 @@
 # I-001 verification — 2026-10-17
 
-Scope: title/navigation and Android project bootstrap only. I-002 was not started.
+Scope: title/navigation and Android project bootstrap only. I-002 was not started during this packet. User accepted I-001 and authorized I-002 on 2026-10-17.
 
 ## Environment and baseline
 
@@ -45,20 +45,38 @@ Rendered screenshots: `.local/verification/title.png`, `new-run.png`, `settings.
 | Acceptance item | Status | Evidence / limitation |
 |---|---|---|
 | Pinned Godot project opens without parse/scene errors | PASS | Final headless editor import, main scene boot and real renderer |
-| Hollowfold title, New Run and Settings; enter/exit placeholder | PASS on desktop | 28 behavior checks and actual rendered pointer navigation; Android behavior UNVERIFIED |
+| Hollowfold title, New Run and Settings; enter/exit placeholder | PASS | Agent desktop checks plus user-reported physical Android PASS on 2026-10-17 |
 | Compatibility renderer, portrait config and Android export foundation | PASS | Engine renderer output, project settings, successful signed APK and manifest |
 | Signed debug APK exported | PASS | Godot export exit 0, signature verification |
-| APK installs and boots on physical Android in portrait | UNVERIFIED | No device available |
-| Real phone safe areas, touch reach, background/resume and rotation | UNVERIFIED | Synthetic geometry passes; phone screenshot and manual observation required |
+| APK installs and boots on physical Android in portrait | PASS — user-reported | User installed/tested APK and explicitly approved I-001; not independently tested by the agent |
+| Required real-phone layout, Back, background/resume, rotation and offline behavior | PASS — user-reported | User's nine manual checks below; optional screenshot/extended touch/large-font evidence remains unverified |
 | Documented headless scene smoke command | PASS | `./tools/verify.ps1` ran successfully |
 | No tracked signing secrets or generated APK/SDK | PASS at local audit | Ignore rules, explicit staging and tracked-path inspection required before commit |
 | Clean repository and implementation pushed | Recorded in final report | Confirm with `git status --short --branch` and local/remote SHA equality after commit |
 | GitHub CI execution | PASS | [Run 39044645463](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39044645463) completed successfully against implementation `7fd6ac0f148971cde3a35f8501a37df3d102cde7`; GitHub API confirmed engine-download and import/boot/test steps succeeded |
 
-**Overall:** Implementation and debug export ready for review; AC-I001 remains **UNVERIFIED** as a whole until physical-device acceptance. I-002 remains gated on the user's review/authorization.
+**Overall:** Required AC-I001 acceptance is **COMPLETE / USER APPROVED** as of 2026-10-17, combining the previously recorded agent checks with the explicitly attributed user-reported physical results below. I-002 is now authorized. No unperformed automated check is marked passed.
 
 APK from the successful export: 28,317,023 bytes (27.01 MiB), SHA-256 `842FD09960535892142F46B3107F499C4DDF7784A5084900C0DBB75049E2A8EB`. Rebuilding may change ZIP/signature timestamps and hash. [BUILD_ANDROID.md](BUILD_ANDROID.md) contains exact install/launch, capture and manual acceptance steps.
 
-Independent read-only code review found no material findings. Optional test coverage deferred: automated small-window assertions currently cover title controls, not child-panel scrolling/Back reachability at deliberately short heights. Real phone reachability remains explicitly UNVERIFIED.
+Independent read-only code review found no material findings. Optional test coverage deferred: automated small-window assertions currently cover title controls, not child-panel scrolling/Back reachability at deliberately short heights. Extended touch-reach, large-font testing, device metadata and screenshot evidence remain nonblocking follow-ups; no independent agent physical-device observation is claimed.
 
 Implementation commit `7fd6ac0f148971cde3a35f8501a37df3d102cde7` was pushed to origin/main; remote/local SHA equality and clean working tree were verified. A subsequent documentation-only commit records this actual hash and hosted CI result. No runtime files changed after the successful local build and review.
+
+## User-reported physical acceptance — 2026-10-17
+
+Source: user's explicit I-001 approval in this chat. The user reports installing and testing the APK on an Android phone. Device model, Android version, ADB output and screenshot were not provided. These results were **not independently performed or observed by the coding agent**.
+
+| Manual check | User-reported result |
+|---|---|
+| Application launches without crashing | PASS |
+| Title screen displays correctly in portrait | PASS |
+| New Run opens the placeholder | PASS |
+| Settings opens and Back navigation works | PASS |
+| Android system Back works in both panels | PASS |
+| No UI overlaps camera cutouts or system navigation | PASS |
+| Portrait stays locked during rotation | PASS |
+| Backgrounding and returning works | PASS |
+| All available functionality works offline | PASS |
+
+The user officially approved I-001 and authorized I-002. Optional unperformed checks remain follow-ups and do not block that approval. The historical initial verification commands/failures above are preserved as evidence, not presented as new runs.
