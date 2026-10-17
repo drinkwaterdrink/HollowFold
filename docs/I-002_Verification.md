@@ -78,14 +78,14 @@ Captures include `.local/verification/i002-region.png`, `i002-next-seed.png` and
 | Same seed reproduces terrain passability and spawn | PASS | Golden fixture plus 100 repeated-seed maps; direct grid/hash comparisons |
 | Player cannot spawn inside blocked terrain | PASS | Every seed's spawn and entrance validated passable |
 | Moving into solid rock leaves logical position unchanged | PASS | Explicit wall fixture and UI-adapter blocked-movement test; water/bounds/diagonal cases also covered |
-| Visible terrain, entrance, actor, camera, collision and temporary touch controls | PASS on desktop; Android UNVERIFIED | Scene tests, actual GUI pointer/key input and captures; phone absent |
-| Region fits portrait layout | PASS on desktop; Android UNVERIFIED | Three rendered portrait sizes; actual cutouts/physical comfort need phone test |
-| App still launches/navigates; I-001 tests remain passing | PASS on desktop; new APK phone launch UNVERIFIED | Import/main boot, 28 unchanged checks and rendered regression |
+| Visible terrain, entrance, actor, camera, collision and temporary touch controls | PASS | Agent desktop tests plus user-reported Android PASS for version 0.2.0 |
+| Region fits portrait layout | PASS — user-reported Android | Three agent-rendered sizes plus user's portrait/inset acceptance |
+| App still launches/navigates; I-001 tests remain passing | PASS | Agent regression tests plus user-reported Android navigation/launch PASS |
 | Generated maps can be checked automatically | PASS | Fixed hash/spawn fixture and headless tests included in `verify.ps1`/CI |
 | New Android debug APK built and verified | PASS | Signed APK, v2/v3 signature checks, manifest inspection |
-| App launches on phone and five-minute walkthrough | UNVERIFIED | No attached device; I-001 reported results apply only to I-001 |
+| App launches on phone and five-minute walkthrough | PASS — user-reported | User explicitly tested version 0.2.0; no independent agent phone test claimed |
 
-Implementation is ready for I-002 review; physical acceptance remains pending. I-003 is **NOT AUTHORIZED / NOT STARTED**.
+Required I-002 acceptance is **COMPLETE / USER APPROVED** on 2026-10-17. The user explicitly authorized I-003 only. No unperformed automated check is promoted to PASS.
 
 Independent read-only code review found no material issues. Reviewer inspected existing logs and ran `git diff --check`, without claiming independent Godot/phone execution. Optional coverage follow-up: compare raw terrain in the scene-level Next seed assertion as well; the pure 100-seed suite already tests raw terrain variation, so this is nonblocking.
 
@@ -100,3 +100,20 @@ Implementation commit: **`7e5f917e798c0bf9cdf3fbd96ff2b38a14e83725`**, pushed to
 5. Background/resume exploration, then force-stop/relaunch. In-memory exploration should survive backgrounding without process death; fresh process returns to title (no save system). Repeat regeneration/movement in airplane mode. Report device model, Android version, pass/fail observations and screenshot/logs where possible.
 
 See [BUILD_ANDROID.md](BUILD_ANDROID.md) for exact ADB install/launch/capture commands. ADB access and USB trust are the only remaining computer/device setup if using the already prepared local toolchain.
+
+## User-reported physical acceptance — 2026-10-17
+
+Source: user's explicit approval in this chat after testing **version 0.2.0 on an Android phone**. All ten checks below were reported PASS. They were **not independently performed/observed by the coding agent**. Phone model/version and capture files were not supplied and remain optional nonblocking evidence follow-ups.
+
+1. New Run → Explore Region opens correctly — PASS.
+2. Eight-direction movement works — PASS.
+3. Walls and water prevent movement onto blocked tiles — PASS.
+4. Diagonal movement cannot pass through blocked corners — PASS.
+5. Camera follows correctly — PASS.
+6. Five minutes of exploration without freezes/crashes — PASS.
+7. Regenerate restores the same map and starting position — PASS.
+8. Next Seed generates different terrain — PASS.
+9. Back navigation, portrait lock, camera/system insets work — PASS.
+10. Background/resume and offline functionality work — PASS.
+
+The historical initial agent limitations and checklist above remain evidence of what the agent did and did not test. Optional scene-level raw-terrain comparison coverage remains a follow-up; the prior pure suite already checked it. I-003 requires its own test/build/physical acceptance.

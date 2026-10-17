@@ -31,3 +31,8 @@ For later changes, record old/new decision, rationale, and affected D/F/S/I iden
 - Presentation: existing safe-area/theme retained, clipped SubViewport with one TileMapLayer, original 24×24 prototype atlas, simple actor glyph and clamped Camera2D. The viewport only updates when visible. Tile size is provisional, not a locked art-pipeline choice. Entrance is a starting landmark; no level transition yet.
 - Existing New Run placeholder remains a launch panel with Explore region; Back returns to that panel and then title. Leaving/re-entering region keeps temporary in-memory exploration; process restart returns to title with no saved exploration. No persistence is implied.
 - Version 0.2.0 / Android code 2 and ignored `Hollowfold-I002-debug.apk` preserve the previous I-001 APK and use the existing debug key/app ID. I-001 phone results do not establish I-002 phone acceptance. I-003 requires separate authorization.
+
+## I-002 acceptance and future presentation — 2026-10-17
+
+- User reported all ten required real-device checks PASS on version 0.2.0 and approved I-002; I-003 only is now authorized. Agent-run physical checks are not implied.
+- Visual direction reaffirmed: eventual quality should approach **Caves (Android)**: polished pixel art, smooth animations, readable environments, attractive effects and cohesive design. This reinforces blueprint §§1.1, 12 and I-022, and guides I-005/I-022 art/UI packets. It does not authorize a graphics overhaul during I-003, nor copying reference-game assets.
