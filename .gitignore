@@ -20,3 +20,10 @@ android/build/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local toolchain, build outputs, export credentials and verification captures
+.local/
+builds/
+.godot-export-credentials.cfg
+export_credentials.cfg
+*.log

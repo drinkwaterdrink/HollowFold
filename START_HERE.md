@@ -8,4 +8,4 @@
 6. Tell Codex to read `AGENTS.md`, `docs/plans/Hollowfold_Master_Blueprint_v1.md`, `docs/progress.md`, and `docs/agents/I-001_Godot_Agent_Kickoff.md`, then execute **I-001 only**.
 7. Verify I-001 acceptance evidence before starting I-002. If physical Android installation cannot be verified, report **UNVERIFIED**, not PASS.
 
-No `project.godot` is included yet: **Codex creates it in I-001**.
+The starter ZIP did not include `project.godot`. I-001 has now added it. Use `docs/BUILD_ANDROID.md` for the prepared local toolchain and `docs/I-001_Verification.md` for actual evidence and remaining physical-device checks.

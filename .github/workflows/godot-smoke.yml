@@ -1,0 +1,22 @@
+name: Godot 4.7.2 bootstrap smoke
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download pinned official engine
+        shell: bash
+        run: |
+          mkdir -p .local/ci-godot
+          curl --fail --location --retry 3 https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip -o .local/ci-godot/godot.zip
+          unzip -q .local/ci-godot/godot.zip -d .local/ci-godot
+          chmod +x .local/ci-godot/Godot_v4.7.2-stable_linux.x86_64
+      - name: Import, boot and test actual scene
+        shell: pwsh
+        run: ./tools/verify.ps1 -GodotPath .local/ci-godot/Godot_v4.7.2-stable_linux.x86_64

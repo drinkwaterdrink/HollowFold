@@ -1,0 +1,149 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/boot.gd" id="1_boot"]
+[ext_resource type="Script" path="res://scripts/ui/safe_area.gd" id="2_safe"]
+[ext_resource type="Theme" path="res://assets/ui/hollowfold_theme.tres" id="3_theme"]
+[ext_resource type="Texture2D" path="res://assets/icon.svg" id="4_icon"]
+
+[node name="Hollowfold" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_theme")
+script = ExtResource("1_boot")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.047, 0.063, 0.071, 1)
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_safe")
+
+[node name="Scroll" type="ScrollContainer" parent="SafeArea"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Content" type="VBoxContainer" parent="SafeArea/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TitlePanel" type="VBoxContainer" parent="SafeArea/Scroll/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Mark" type="TextureRect" parent="SafeArea/Scroll/Content/TitlePanel"]
+custom_minimum_size = Vector2(0, 104)
+layout_mode = 2
+texture = ExtResource("4_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="SafeArea/Scroll/Content/TitlePanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Hollowfold"
+horizontal_alignment = 1
+
+[node name="Tagline" type="Label" parent="SafeArea/Scroll/Content/TitlePanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.71, 0.71, 1)
+text = "Beyond the fold, a world awaits."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Space" type="Control" parent="SafeArea/Scroll/Content/TitlePanel"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NewRunButton" type="Button" parent="SafeArea/Scroll/Content/TitlePanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "New Run"
+
+[node name="SettingsButton" type="Button" parent="SafeArea/Scroll/Content/TitlePanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Settings"
+
+[node name="Version" type="Label" parent="SafeArea/Scroll/Content/TitlePanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.71, 0.71, 1)
+theme_override_font_sizes/font_size = 14
+text = "0.1.0 · Early development"
+horizontal_alignment = 1
+
+[node name="NewRunPanel" type="VBoxContainer" parent="SafeArea/Scroll/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Eyebrow" type="Label" parent="SafeArea/Scroll/Content/NewRunPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74, 0.63, 0.42, 1)
+text = "THE THRESHOLD"
+
+[node name="Heading" type="Label" parent="SafeArea/Scroll/Content/NewRunPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "A new beginning"
+autowrap_mode = 3
+
+[node name="Description" type="Label" parent="SafeArea/Scroll/Content/NewRunPanel"]
+layout_mode = 2
+text = "Your journey will begin here.\n\nThis early build contains the title interface only. Character creation and the world are still to come.\n\nNo run has been started."
+autowrap_mode = 3
+
+[node name="NewRunBack" type="Button" parent="SafeArea/Scroll/Content/NewRunPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Back"
+
+[node name="SettingsPanel" type="VBoxContainer" parent="SafeArea/Scroll/Content"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Eyebrow" type="Label" parent="SafeArea/Scroll/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74, 0.63, 0.42, 1)
+text = "FIELD JOURNAL"
+
+[node name="Heading" type="Label" parent="SafeArea/Scroll/Content/SettingsPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Settings"
+
+[node name="Description" type="Label" parent="SafeArea/Scroll/Content/SettingsPanel"]
+layout_mode = 2
+text = "Hollowfold is an offline, single-player game.\n\nThis early build uses portrait layout and has no audio or animated effects. Adjustable preferences will arrive as those features are built.\n\nUse Back or Escape to return."
+autowrap_mode = 3
+
+[node name="SettingsBack" type="Button" parent="SafeArea/Scroll/Content/SettingsPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Back"
