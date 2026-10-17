@@ -1,6 +1,6 @@
 # I-003 — Deterministic action and turn engine
 
-Date: 2026-10-17. Scope: F-004, S-004/S-005, blueprint §14 and I-003/AC-I003. Godot `4.7.2.stable.official.ed1daf0bf`, Compatibility, established Android toolchain/key. I-004 is **NOT AUTHORIZED / NOT STARTED**.
+Date: 2026-10-17. Scope: F-004, S-004/S-005, blueprint §14 and I-003/AC-I003. Godot `4.7.2.stable.official.ed1daf0bf`, Compatibility, established Android toolchain/key. I-003 is now accepted; I-004 only is authorized.
 
 ## Prior acceptance and preserved architecture
 
@@ -84,13 +84,13 @@ Real renderer: OpenGL 3.3 Compatibility on AMD Radeon 780M. Captures: `.local/ve
 | Same seed + content + ordered commands gives same final canonical world hash | PASS | Golden replay plus per-prefix/final-state/event equality; full canonical fields listed above |
 | Legal Move/Wait advances defined action cost, invalid blocked/diagonal moves do not | PASS | Pure and scene tests; player/time/index unchanged on rejection |
 | Inspect does not advance turn/RNG and hidden info is not disclosed | PASS | Visible/hidden/remembered cases, snapshots and rendered map inspection |
-| No duplicate action on fast repeated/overlapping input | PASS automated; physical UNVERIFIED | Duplicate-ID/reentrant checks, same-frame GUI suppression and routed synthetic-touch coverage; Android OS/input stress awaits user |
+| No duplicate action on fast repeated/overlapping input | PASS — automated and user-reported physical | Duplicate-ID/reentrant checks, same-frame GUI suppression and routed synthetic-touch coverage; Android OS/input stress awaits user |
 | No simulation progression from frames or navigation | PASS | 120 headless idle frames, rendered idle frames and menu/hidden input checks |
-| I-001/I-002 behaviors retained | PASS automated; changed-APK physical UNVERIFIED | Original bootstrap/terrain suites and retained scene/rendered behavior coverage; generation fixture unchanged |
+| I-001/I-002 behaviors retained | PASS — automated and user-reported physical | Original bootstrap/terrain suites and retained scene/rendered behavior coverage; generation fixture unchanged |
 | Android debug build and established signing/pipeline | PASS | Signed APK, matching certificate, manifest/resource checks |
-| Real Android I-003 functionality and input stress | UNVERIFIED | No attached phone. Prior user acceptance applies to 0.1.0/0.2.0 only |
+| Real Android I-003 functionality and input stress | PASS — user-reported | User installed 0.3.0 and passed all nine acceptance groups; no independent agent phone test |
 
-I-003 is implemented and ready for review; physical acceptance remains pending. I-004 requires explicit user approval.
+Required I-003 acceptance is complete following the user report below. I-004 only is now authorized. Historical agent-run evidence and unavailable-device results above remain unchanged.
 
 Implementation commit **`ec34a61d77e1807ae0e97071dccab694b0adc72c`** is pushed to origin/main. Working tree was clean and remote HEAD matched after push. The documentation-only follow-up records this actual commit and hosted CI result; no runtime change follows the verified implementation. I-002 acceptance/future visual direction was committed separately as **`7f362ea2c3c58ecacd97fb31a6f85668356c176a`**.
 
@@ -159,3 +159,19 @@ tests/headless/simulation_visual_smoke.gd.uid
 tools/export_android.ps1
 tools/verify.ps1
 ```
+
+## User-reported physical acceptance
+
+On 2026-10-17 the user officially approved I-003 after installing/testing **0.3.0** on an Android phone. **All nine groups PASSED; no problems observed.** These are user-reported physical-device results, not tests independently executed by the coding agent.
+
+1. Launch, menus, portrait orientation and screen insets.
+2. Seed 1337 starts (3,11), #0/t0; idle does not progress turns.
+3. Blocked/diagonal moves cost nothing; Right gives (4,11), #1/t100.
+4. Wait gives #2/t200 without movement.
+5. Inspect costs no time and protects hidden information.
+6. Fog reveals new areas and dims remembered terrain.
+7. Rapid taps/holds/overlapping touches cause no duplicate actions or stuck controls.
+8. Regenerate/Next Seed reset/change terrain, counters and fog correctly.
+9. Navigation, background/resume, offline use and extended exploration work without crashes or autonomous turns.
+
+Required AC-I003 is complete. Optional screenshots/device metadata and additional unperformed tests remain nonblocking follow-ups; no new automated result is inferred. The prior checklist and agent no-device findings above are retained as historical evidence.
