@@ -1,0 +1,22 @@
+# Godot generated import/cache files
+.godot/
+
+# Android/Gradle generated files
+android/build/
+.gradle/
+
+# Binaries and local secrets
+*.apk
+*.aab
+*.keystore
+*.jks
+*.p12
+.env
+.env.*
+!.env.example
+
+# OS/editor debris
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
