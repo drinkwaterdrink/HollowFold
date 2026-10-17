@@ -1,4 +1,4 @@
-name: Godot 4.7.2 bootstrap smoke
+name: Godot 4.7.2 smoke
 on:
   push:
   pull_request:

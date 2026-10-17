@@ -1,7 +1,7 @@
 param(
     [string]$AndroidSdkPath = "$PSScriptRoot/../.local/android-sdk",
     [string]$JdkPath = '',
-    [string]$OutputPath = "$PSScriptRoot/../builds/android/Hollowfold-debug.apk"
+    [string]$OutputPath = "$PSScriptRoot/../builds/android/Hollowfold-I002-debug.apk"
 )
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path $PSScriptRoot -Parent

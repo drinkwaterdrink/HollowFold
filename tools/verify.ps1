@@ -19,4 +19,6 @@ function Invoke-GodotCheck([string]$Name, [string[]]$Arguments) {
 Invoke-GodotCheck 'import' @('--editor', '--import')
 Invoke-GodotCheck 'scene-boot' @('--quit-after', '60')
 Invoke-GodotCheck 'bootstrap-smoke' @('--script', 'tests/headless/bootstrap_smoke.gd')
-Write-Output 'VERIFY: import, main scene boot and bootstrap smoke PASS'
+Invoke-GodotCheck 'region-tests' @('--script', 'tests/headless/region_tests.gd')
+Invoke-GodotCheck 'region-scene-smoke' @('--script', 'tests/headless/region_scene_smoke.gd')
+Write-Output 'VERIFY: import, main scene boot, I-001 bootstrap and I-002 region suites PASS'

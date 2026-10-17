@@ -1,0 +1,61 @@
+extends Node2D
+## Read-only terrain presentation. No terrain generation or collision decisions here.
+
+const Grid = preload("res://scripts/world/region_grid.gd")
+
+@onready var terrain: TileMapLayer = $Terrain
+@onready var actor: Node2D = $Player
+@onready var camera: Camera2D = $Camera
+
+
+func display_region(region: Grid) -> void:
+	if terrain.tile_set == null:
+		terrain.tile_set = _make_tileset()
+	terrain.clear()
+	for y in range(region.height):
+		for x in range(region.width):
+			var cell := Vector2i(x, y)
+			terrain.set_cell(cell, 0, Vector2i(region.terrain_at(cell), 0))
+	camera.limit_left = 0
+	camera.limit_top = 0
+	camera.limit_right = region.width * Grid.TILE_SIZE
+	camera.limit_bottom = region.height * Grid.TILE_SIZE
+	display_player(region)
+	camera.reset_smoothing()
+
+
+func display_player(region: Grid) -> void:
+	actor.position = region.cell_to_world(region.player_cell)
+	camera.position = actor.position
+	camera.force_update_scroll()
+
+
+func _make_tileset() -> TileSet:
+	# Four original code-drawn prototype tiles: ground, rock, water, entrance.
+	var image := Image.create(Grid.TILE_SIZE * 4, Grid.TILE_SIZE, false, Image.FORMAT_RGBA8)
+	var colors: Array[Color] = [Color("293b35"), Color("484c50"), Color("24546a"), Color("293b35")]
+	for tile in range(4):
+		var origin: int = tile * Grid.TILE_SIZE
+		image.fill_rect(Rect2i(origin, 0, 24, 24), colors[tile])
+		image.fill_rect(Rect2i(origin, 23, 24, 1), colors[tile].darkened(0.2))
+		if tile == Grid.Terrain.ROCK:
+			image.fill_rect(Rect2i(origin + 2, 2, 20, 2), Color("6b7072"))
+			image.fill_rect(Rect2i(origin + 4, 12, 11, 1), Color("353b40"))
+		elif tile == Grid.Terrain.WATER:
+			image.fill_rect(Rect2i(origin + 3, 7, 10, 2), Color("5395a5"))
+			image.fill_rect(Rect2i(origin + 11, 16, 10, 2), Color("397990"))
+		elif tile == Grid.Terrain.ENTRANCE:
+			image.fill_rect(Rect2i(origin + 3, 3, 18, 18), Color("bda16c"))
+			image.fill_rect(Rect2i(origin + 5, 5, 14, 14), Color("1b2724"))
+		else:
+			image.fill_rect(Rect2i(origin + 5, 6, 2, 2), Color("405448"))
+			image.fill_rect(Rect2i(origin + 17, 17, 2, 2), Color("1d302c"))
+	var atlas := TileSetAtlasSource.new()
+	atlas.texture = ImageTexture.create_from_image(image)
+	atlas.texture_region_size = Vector2i(Grid.TILE_SIZE, Grid.TILE_SIZE)
+	for tile in range(4):
+		atlas.create_tile(Vector2i(tile, 0))
+	var result := TileSet.new()
+	result.tile_size = Vector2i(Grid.TILE_SIZE, Grid.TILE_SIZE)
+	result.add_source(atlas, 0)
+	return result

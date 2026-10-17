@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/boot.gd" id="1_boot"]
 [ext_resource type="Script" path="res://scripts/ui/safe_area.gd" id="2_safe"]
 [ext_resource type="Theme" path="res://assets/ui/hollowfold_theme.tres" id="3_theme"]
 [ext_resource type="Texture2D" path="res://assets/icon.svg" id="4_icon"]
+[ext_resource type="PackedScene" path="res://scenes/region.tscn" id="5_region"]
 
 [node name="Hollowfold" type="Control"]
 layout_mode = 3
@@ -92,7 +93,7 @@ text = "Settings"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.65, 0.71, 0.71, 1)
 theme_override_font_sizes/font_size = 14
-text = "0.1.0 · Early development"
+text = "0.2.0 · Early development"
 horizontal_alignment = 1
 
 [node name="NewRunPanel" type="VBoxContainer" parent="SafeArea/Scroll/Content"]
@@ -113,14 +114,25 @@ autowrap_mode = 3
 
 [node name="Description" type="Label" parent="SafeArea/Scroll/Content/NewRunPanel"]
 layout_mode = 2
-text = "Your journey will begin here.\n\nThis early build contains the title interface only. Character creation and the world are still to come.\n\nNo run has been started."
+text = "Your journey will begin here.\n\nExplore a small seeded region in this early build. Character creation and a full run are still to come.\n\nExploration is temporary and is not saved."
 autowrap_mode = 3
+
+[node name="ExploreRegion" type="Button" parent="SafeArea/Scroll/Content/NewRunPanel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Explore region"
 
 [node name="NewRunBack" type="Button" parent="SafeArea/Scroll/Content/NewRunPanel"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Back"
+
+[node name="RegionScreen" parent="." instance=ExtResource("5_region")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
 
 [node name="SettingsPanel" type="VBoxContainer" parent="SafeArea/Scroll/Content"]
 unique_name_in_owner = true
