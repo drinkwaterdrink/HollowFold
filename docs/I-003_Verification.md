@@ -56,6 +56,7 @@ Run from repository root; logs/captures remain ignored under `.local/`.
 | APK inventory | All six simulation modules packaged; no tests/fixtures/docs/tools/.local/keystores |
 | `adb devices -l` | Empty list; **no I-003 phone install/test performed by agent** |
 | `git diff --check` | PASS |
+| Hosted Linux CI | PASS: [run 39050865033](https://github.com/drinkwaterdrink/HollowFold/actions/runs/39050865033), success against implementation `ec34a61d77e1807ae0e97071dccab694b0adc72c`; official engine download and import/boot/all five headless suites passed, including canonical and terrain fixtures |
 
 Rendered commands:
 
@@ -90,6 +91,8 @@ Real renderer: OpenGL 3.3 Compatibility on AMD Radeon 780M. Captures: `.local/ve
 | Real Android I-003 functionality and input stress | UNVERIFIED | No attached phone. Prior user acceptance applies to 0.1.0/0.2.0 only |
 
 I-003 is implemented and ready for review; physical acceptance remains pending. I-004 requires explicit user approval.
+
+Implementation commit **`ec34a61d77e1807ae0e97071dccab694b0adc72c`** is pushed to origin/main. Working tree was clean and remote HEAD matched after push. The documentation-only follow-up records this actual commit and hosted CI result; no runtime change follows the verified implementation. I-002 acceptance/future visual direction was committed separately as **`7f362ea2c3c58ecacd97fb31a6f85668356c176a`**.
 
 ## APK
 
